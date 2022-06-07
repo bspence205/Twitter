@@ -1,9 +1,16 @@
-import React from 'react'
+import React, { SVGProps } from 'react'
 
-function SidebarRow() {
+interface Props {
+    Icon: (props: SVGProps<SVGSVGElement>) => JSX.Element
+    title: string
+}
+
+function SidebarRow({Icon, title}: Props) {
   return (
     <div>
-        
+        <Icon />
+
+        <p>{title}</p>
     </div>
   )
 }
