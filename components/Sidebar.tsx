@@ -13,7 +13,7 @@ import SidebarRow from './SidebarRow'
 
 function Sidebar() {
   return (
-    <div>
+    <div className='flex flex-col'>
 
         <img className='h-10 w-10' 
         src="icons8-twitter.svg" alt="twitter logo" />
@@ -23,6 +23,9 @@ function Sidebar() {
         <SidebarRow Icon={MailIcon} title="Messages" />
         <SidebarRow Icon={BookmarkIcon} title="Bookmarks" />
         <SidebarRow Icon={CollectionIcon} title="Lists" />
+        <SidebarRow Icon={UserIcon} title="Sign In" />
+        <SidebarRow Icon={DotsCircleHorizontalIcon} title="More" />
+
 
     </div>
   )
