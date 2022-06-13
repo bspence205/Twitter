@@ -6,4 +6,4 @@ export const fetchComments = async (tweetId: string) => {
     const comments: Comment[] = await res.json()
 
     return comments
-} 
+}  

@@ -21,6 +21,8 @@ function Tweet({ tweet }: Props) {
    const [commentBoxVisible, setCommentBoxVisible] = useState<boolean>(false)
    const [input, setInput] = useState<string>('')
    const { data: session } = useSession()
+
+
     const refreshComments = async () => {
        const comments: Comment[] = await fetchComments(tweet._id)
        setComments(comments);
@@ -79,18 +81,22 @@ function Tweet({ tweet }: Props) {
 
                 <p className='pt-1'>{tweet.text}</p>
 
-                {tweet.image && <img src={tweet.image} alt="" className='m-5 ml-0 mb-1
-                max-h-60 rounded-lg object-cover shadow-sm' />}
+                {tweet.image && (
+                <img 
+                src={tweet.image} 
+                alt="" 
+                className='m-5 ml-0 mb-1 max-h-60 rounded-lg object-cover shadow-sm' />)}
 
             </div>
         </div>
 
         <div className='mt-5 flex justify-between'>
             <div 
-            onClick={(e) => session && setCommentBoxVisible(!commentBoxVisible)}
+            onClick={() => session && setCommentBoxVisible(!commentBoxVisible)}
 
             className='flex cursor-pointer items-center space-x-3 text-gray-400'>
-                <ChatAlt2Icon 
+                <ChatAlt2Icon
+
                 className='h-5 w-5' />
                 <p>{comments.length}</p>
             </div>
@@ -110,12 +116,13 @@ function Tweet({ tweet }: Props) {
         {/* Comment Box Logic */}
 
         {commentBoxVisible && (
-            <form onSubmit={handleSubmit} className='mt-3 flex space-x-3' action="">
+            <form onSubmit={handleSubmit} className='mt-3 flex space-x-3'>
                 <input 
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
                 className='flex-1 rounded-lg bg-gray-100 p-2 outline-none'
-                type="text" placeholder='Write a comment...' />
+                type="text" 
+                placeholder='Write a comment...' />
                 <button 
                 disabled={!input}
                 type='submit'
