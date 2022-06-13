@@ -1,4 +1,4 @@
-import React, { useRef } from 'react'
+import React, { Dispatch, MouseEvent, SetStateAction, useRef } from 'react'
 import { useState } from 'react'
 import {
     PhotographIcon,
@@ -8,9 +8,17 @@ import {
     LocationMarkerIcon
 } from '@heroicons/react/outline' 
 import { useSession } from 'next-auth/react'
+import { Tweet, TweetBody } from '../typings'
+import toast from 'react-hot-toast'
+import { fetchTweets } from '../utils/fetchTweet'
 
 
-function TweetBox() {
+interface Props {
+    setTweets: Dispatch<SetStateAction<Tweet []>>
+}
+
+
+function TweetBox({ setTweets }: Props) {
 
     const [input, setInput] = useState<string>('')
     const [image, setImage] = useState<string>('')
@@ -26,6 +34,42 @@ function TweetBox() {
         imageInputRef.current.value = ''
         setImageUrlBoxIsOpen(false)
 
+    }
+
+    const postTweet = async () => {
+        const tweetInfo: TweetBody = {
+            text: input, 
+            username: session?.user?.name || 'Unknown User',
+            profileImg: session?.user?.image || '/public/icons8-name-48.png',
+            image: image,
+        }
+
+        const result = await fetch(`/api/addTweet`, {
+            body: JSON.stringify(tweetInfo),
+            method: 'POST',
+        })
+
+        const json = await result.json();
+
+        const newTweets = await fetchTweets();
+        setTweets(newTweets)
+
+        toast("Tweet Posted", {
+            icon: '🚀 '
+        })
+        return json
+    }
+
+    const handleSubmit = (
+        e: MouseEvent<HTMLButtonElement, globalThis.MouseEvent>
+    ) => {
+        e.preventDefault()
+
+        postTweet();
+
+        setInput('')
+        setImage('')
+        setImageUrlBoxIsOpen(false)
     }
 
 
@@ -54,7 +98,9 @@ function TweetBox() {
                         <CalendarIcon className='h-5 w-5' />
                         <LocationMarkerIcon className='h-5 w-5' />
                     </div>
-                    <button disabled={!input || !session} 
+                    <button 
+                    onClick={handleSubmit}
+                    disabled={!input || !session} 
                     className='bg-twitter px-5 py-2 font-bold
                     text-white rounded-full disabled:opacity-40'>Tweet</button>
                 </div>
