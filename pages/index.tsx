@@ -18,7 +18,7 @@ const Home = ({ tweets }: Props) => {
     <div className="lg:max-w-6xl mx-auto max-h-screen overflow-hidden">
       <Head>
         <title>Twitter</title>
-        <link rel="icon" href="/favicon.ico" />
+        <link rel="icon" href="/icons8-twitter.svg" />
       </Head>
       <Toaster />
 
